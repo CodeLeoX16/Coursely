@@ -1,24 +1,91 @@
-<footer>
-    <div class="f-info">
-        <div class="f-info-links" style="display: flex; gap: 16px;">
-            <a>Privacy</a>
-            <a>Terms</a>
-            <a>Sitemap</a>
-            <a>Company Details</a>
+<footer class="site-footer" role="contentinfo">
+    <style>
+        .site-footer{background:#0b1220;color:#cbd5e1;padding:40px 24px;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial}
+        .footer-container{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;gap:32px;justify-content:space-between;align-items:flex-start}
+        .footer-col{flex:1;min-width:180px}
+        .brand{display:flex;align-items:center;gap:12px}
+        .brand-logo{width:46px;height:46px;border-radius:8px;background:linear-gradient(135deg,#6ee7b7,#3b82f6);display:inline-block}
+        .f-title{font-weight:700;color:#fff;margin-bottom:10px}
+        .f-links,a.f-link{display:block;color:rgba(203,213,225,.9);text-decoration:none;margin:6px 0;font-size:0.95rem}
+        .f-links a:hover,a.f-link:hover{color:#fff;text-decoration:underline}
+        .social a{margin-right:12px;color:inherit}
+        .newsletter form{display:flex;gap:8px;align-items:center}
+        .newsletter input[type="email"]{padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.06);background:transparent;color:inherit;min-width:180px}
+        .btn-sub{background:#10b981;color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer}
+        .btn-sub:hover{filter:brightness(.95)}
+        .footer-bottom{border-top:1px solid rgba(255,255,255,0.04);margin-top:28px;padding-top:18px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:0.9rem;color:rgba(203,213,225,.8)}
+        .policy-links{display:flex;gap:14px;flex-wrap:wrap}
+        @media (max-width:720px){.footer-container{gap:18px}.footer-bottom{flex-direction:column;align-items:flex-start}}
+    </style>
+
+    <div class="footer-container">
+        <div class="footer-col" style="max-width:320px">
+            <div class="brand">
+                <span class="brand-logo" aria-hidden="true"></span>
+                <div>
+                    <div style="font-weight:700;color:#fff">Coursely</div>
+                    <div style="font-size:0.9rem;color:rgba(203,213,225,.75)">Course reviews, ratings and honest student feedback.</div>
+                </div>
+            </div>
+
+            <div style="margin-top:14px;color:rgba(203,213,225,.75);font-size:0.95rem">
+                <div><strong>Contact</strong></div>
+                <div style="margin-top:6px">help@coursely.example</div>
+                <div style="margin-top:6px">+91 9907876770</div>
+            </div>
+
+            <div style="margin-top:12px" class="social" aria-label="Social links">
+                <a href="https://www.facebook.com/" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-square" style="font-size:1.6rem;color:#1877f3"></i></a>
+                <a href="https://www.instagram.com/" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram" style="font-size:1.6rem;color:#E4405F"></i></a>
+                <a href="https://www.linkedin.com/" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin" style="font-size:1.6rem;color:#0A66C2"></i></a>
+                <a href="https://twitter.com/" target="_blank" aria-label="Twitter"><i class="fa-brands fa-x-twitter" style="font-size:1.6rem;color:#1DA1F2"></i></a>
+            </div>
         </div>
-        <div class="f-info-brand">
-            &copy; 2025 Nestelo Private Limited
+
+        <div class="footer-col">
+            <div class="f-title">Quick links</div>
+            <div class="f-links">
+                <a class="f-link" href="/courses">Browse Courses</a>
+                <a class="f-link" href="/reviews">Latest Reviews</a>
+                <a class="f-link" href="/about">About Us</a>
+                <a class="f-link" href="/careers">Careers</a>
+                <a class="f-link" href="/contact">Support</a>
+            </div>
         </div>
-        <div class="f-info-social" style="display: flex; gap: 12px;">
-            <a href="https://www.facebook.com/" target="_blank" aria-label="Facebook">
-            <i class="fa-brands fa-square-facebook" style="font-size: 2rem; color: #1877f3;"></i>
-            </a>
-            <a href="https://www.instagram.com/" target="_blank" aria-label="Instagram">
-            <i class="fa-brands fa-square-instagram" style="font-size: 2rem; color: #E4405F;"></i>
-            </a>
-            <a href="https://www.linkedin.com/" target="_blank" aria-label="LinkedIn">
-            <i class="fa-brands fa-linkedin" style="font-size: 2rem; color: #0A66C2;"></i>
-            </a>
+
+        <div class="footer-col">
+            <div class="f-title">Resources</div>
+            <div class="f-links">
+                <a class="f-link" href="/blog">Blog & Guides</a>
+                <a class="f-link" href="/partners">Partner Programs</a>
+                <a class="f-link" href="/affiliates">Affiliates</a>
+                <a class="f-link" href="/press">Press</a>
+            </div>
+        </div>
+
+        <div class="footer-col newsletter" style="max-width:320px">
+            <div class="f-title">Newsletter</div>
+            <div style="color:rgba(203,213,225,.75);margin-bottom:8px">Get monthly updates: new courses, trending reviews and offers.</div>
+            <form action="/subscribe" method="post" aria-label="Subscribe to newsletter">
+                <input name="email" type="email" placeholder="Your email" required aria-label="Email address">
+                <button class="btn-sub" type="submit">Subscribe</button>
+            </form>
+
+            <div style="margin-top:14px;color:rgba(203,213,225,.75);font-size:0.9rem">
+                <div><strong>Office</strong></div>
+                <div style="margin-top:6px">123 Learning Ave, Suite 400</div>
+                <div style="margin-top:6px">San Francisco, CA</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <div>&copy; <%= new Date().getFullYear() %> Coursely Private Limited. All rights reserved.</div>
+        <div class="policy-links">
+            <a href="/privacy" class="f-link">Privacy</a>
+            <a href="/terms" class="f-link">Terms</a>
+            <a href="/sitemap" class="f-link">Sitemap</a>
+            <a href="/company" class="f-link">Company Details</a>
         </div>
     </div>
 </footer>

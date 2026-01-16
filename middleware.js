@@ -65,3 +65,13 @@ module.exports.isReviewAuthor = async (req, res, next) => {
   }
   next();
 };
+
+// Only allow admin users to perform certain actions (like creating listings)
+module.exports.isAdmin = (req, res, next) => {
+  const user = req.user || res.locals.currentUser;
+  if (!user || user.role !== 'admin') {
+    req.flash('error', 'You do not have permission to perform this action.');
+    return res.redirect('/listings');
+  }
+  next();
+};

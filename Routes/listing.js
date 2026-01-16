@@ -6,7 +6,7 @@ const { listingSchema} = require('../schema.js');
 const ExpressError = require('../utility/expressError.js');
 // const { isLoggedIn,isOwner,validateListing } = require('../../middleware.js');
 // ...existing code...
-const { isLoggedIn,isOwner,validateListing } = require('../middleware.js');
+const { isLoggedIn,isOwner,validateListing, isAdmin } = require('../middleware.js');
 
 const listingcontroller = require('../controllers/listings.js');
 // ...existing code...
@@ -20,11 +20,12 @@ router.route("/")
   .post(
     validateListing,
     isLoggedIn,
+    isAdmin,
    wrapAsync(listingcontroller.createListing)
   )
 // New route
 router.get('/new',
-  isLoggedIn,listingcontroller.renderNewForm
+  isLoggedIn, isAdmin, listingcontroller.renderNewForm
 ); 
 router.route("/:id")
   .get(

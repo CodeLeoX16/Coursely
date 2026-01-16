@@ -1,8 +1,20 @@
 //it work on mvc model
 const Listing = require("../models/listing.js"); 
 module.exports.index = async (req, res) => {
-  const alllisting = await Listing.find({});
-  res.render("listings/index.ejs", { alllisting});
+  const { search } = req.query;
+  const escapeRegex = (text) => text.replace(/[.*+?^${}()|[\\]\\]/g, "\\$&");
+  let query = {};
+  if (search && search.trim()) {
+    query.title = { $regex: escapeRegex(search.trim()), $options: 'i' };
+  }
+  // populate ratings for listing cards so we can show an accurate average
+  const alllisting = await Listing.find(query).populate({ path: 'reviews', select: 'rating' });
+  // compute average rating per listing
+  for (let l of alllisting) {
+    const ratings = (l.reviews || []).map(r => r.rating).filter(r => typeof r === 'number');
+    l.avgRating = ratings.length ? (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1) : null;
+  }
+  res.render("listings/index.ejs", { alllisting, search });
 };
 
 module.exports.renderNewForm = (req, res) => {
@@ -24,7 +36,9 @@ module.exports.showListing = async (req, res) => {
     req.flash('error', 'Listing not found');
     return res.redirect('/listings');
   }
-  console.log(listing);
+  // compute average rating for the detailed listing view
+  const ratings = (listing.reviews || []).map(r => r.rating).filter(r => typeof r === 'number');
+  listing.avgRating = ratings.length ? (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1) : null;
   res.render("listings/show.ejs", { listing });
 };
 

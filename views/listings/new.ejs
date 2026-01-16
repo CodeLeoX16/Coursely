@@ -2,98 +2,123 @@
 <div class="row">
     <div class="col-8 offset-2">
         <body class="bg-light">
-            <div class="container mt-5 p-4 border rounded shadow-sm" style="background: #fff;"></div>
+            <div class="container mt-5 p-4 border rounded shadow-sm" style="background: #fff;">
                 <div class="text-center mb-4">
-                    <h2 style="font-weight: bold; color: #222;">🌟 Create a New Listing 🌟</h2>
-                    <p class="text-muted mb-0">Fill out the form below to add your amazing place!</p>
+                    <h2 style="font-weight: bold; color: #222;">📚 Create a New Course 📚</h2>
+                    <p class="text-muted mb-0">Fill out the form below to add your course!</p>
                 </div>
-                <form action="/listings" method="POST" novalidate class=" needs-validation">
+                <form action="/listings" method="POST" novalidate class="needs-validation">
                     <div class="mb-3">
-                        <label for="title" class="form-label"><b>Title</b></label>
+                        <label for="title" class="form-label"><b>Course Title</b></label>
                         <input 
-                            type="string" 
+                            type="text" 
                             id="title"
                             name="listing[title]" 
-                            placeholder="Add a catchy title" 
+                            placeholder="Enter a catchy course title" 
                             class="form-control"
                             required
                         />
-                        <div class="valid-feedback">Title looks Good</div>
+                        <div class="valid-feedback">Title looks good</div>
                     </div>
+
                     <div class="mb-3">
-                        <label for="description" class="form-label"><b>Description</b></label>
+                        <label for="description" class="form-label"><b>Course Description</b></label>
                         <textarea 
                             id="description"
                             name="listing[description]" 
                             class="form-control"
-                            rows="3"
-                            placeholder="Write a detailed description of your listing"
+                            rows="4"
+                            placeholder="Describe the course content, goals, and prerequisites"
                             required
                         ></textarea>
-                        <div class="invalid-feedback">Please enter a short description</div>
-
+                        <div class="invalid-feedback">Please enter a description</div>
                     </div>
+
                     <div class="mb-3">
-                        <label for="image" class="form-label"><b>Image URL</b></label>
+                        <label for="thumbnail" class="form-label"><b>Thumbnail URL</b></label>
                         <input 
                             type="url" 
-                            id="image"
-                            name="listing[image]"
-                            placeholder="https://example.com/image.jpg"
+                            id="thumbnail"
+                            name="listing[thumbnail]"
+                            placeholder="https://example.com/thumbnail.jpg"
                             class="form-control"
-                            
                         />
                     </div>
+
+                    <div class="mb-3">
+                        <label for="url" class="form-label"><b>Course Website URL</b></label>
+                        <input
+                            type="url"
+                            id="url"
+                            name="listing[url]"
+                            placeholder="https://example.com/course-page"
+                            class="form-control"
+                            pattern="https?://.+"
+                        />
+                        <div class="form-text">Enter the full URL so users can go directly to the course site.</div>
+                    </div>
+
                     <div class="row">
                         <div class="mb-3 col-md-4">
-                            <label for="price" class="form-label"><b>Price</b> <span title="Price per night">💰</span></label>
+                            <label for="fee" class="form-label"><b>Fee</b> <span title="Course fee">💰</span></label>
                             <input 
-                                id="price"
-                                name="listing[price]" 
-                                placeholder="Enter price"
+                                id="fee"
+                                name="listing[fee]" 
+                                type="number"
+                                placeholder="Enter fee"
                                 class="form-control"
                                 min="0"
                                 step="0.01"
                                 required
                             />
-                             <div class="invalid-feedback">Please enter valid price</div>
+                            <div class="invalid-feedback">Please enter a valid fee</div>
                         </div>
                         <div class="mb-3 col-md-8">
-                            <label for="country" class="form-label"><b>Country</b> <span title="Country of the listing">🌍</span></label>
+                            <label for="category" class="form-label"><b>Category</b> <span title="Course category">🏷️</span></label>
                             <input 
                                 type="text" 
-                                id="country"
-                                name="listing[country]" 
-                                placeholder="India"
+                                id="category"
+                                name="listing[category]" 
+                                placeholder="e.g., Web Development, Data Science"
                                 class="form-control"
                                 required
                             />
-                            <div class="invalid-feedback">Please enter valid country</div>
+                            <div class="invalid-feedback">Please enter a category</div>
                         </div>
                     </div>
+
                     <div class="mb-3">
-                        <label for="location" class="form-label"><b>Location</b> <span title="City, State, ZIP">📍</span></label>
+                        <label for="duration" class="form-label"><b>Duration</b> <span title="Total duration">⏱️</span></label>
                         <input 
                             type="text"
-                            id="location"
-                            name="listing[location]" 
-                            placeholder="Kolkata, West Bengal, 700XXX"
+                            id="duration"
+                            name="listing[duration]" 
+                            placeholder="e.g., 6 weeks, 20 hours"
                             class="form-control"
                             required
-
                         />
-                        <div class="invalid-feedback">Location should be valid</div>
+                        <div class="invalid-feedback">Please provide course duration</div>
                     </div>
+
+                    <div class="mb-3">
+                        <label for="instructor" class="form-label"><b>Instructor</b></label>
+                        <input 
+                            type="text"
+                            id="instructor"
+                            name="listing[instructor]" 
+                            placeholder="Instructor name"
+                            class="form-control"
+                        />
+                    </div>
+
                     <div class="text-center mt-4">
                         <button type="submit" class="btn btn-dark px-4 py-2" style="font-size: 1.1rem; border-radius: 25px;">
-                            🚀 Create Listing
+                            🚀 Create Course
                         </button>
-                        <br>
-                        <br>
+                        <br><br>
                     </div>
                 </form>
             </div>
         </body>
     </div>
 </div>
-

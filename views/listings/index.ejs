@@ -1,145 +1,165 @@
 <% layout('layouts/boilerplate') %>
 <style>
+  /* Filters (kept minimal) */
   .filters {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
   }
-  .filter {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    margin-right: 2rem;
-    margin-top: 2rem;
-    opacity: 0.8;
+  .filter { margin-right: 1.5rem; margin-top: 1.5rem; }
 
+  /* Improved listing cards */
+  .listing-card {
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform .22s ease, box-shadow .22s ease;
+    background: white;
   }
-  .filter p{
-    font-size: 0.8rem;
+  .listing-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 36px rgba(16,24,40,0.12);
   }
-  .filter:hover {
-    opacity: 1;
-    cursor: pointer;
+  /* Image media area: show full image (no cropping) */
+  .listing-card .media {
+    position: relative;
+    width: 100%;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    background: #fff; /* fallback background for letterboxing */
+    display:flex; align-items:center; justify-content:center;
   }
-  .filter div {
-    margin-bottom: 0.3rem;
+  .listing-card .media img {
+    position: relative;
+    width: 100%;
+    height: auto; /* preserve full image */
+    object-fit: contain;
+    object-position: center;
+    transition: transform .25s ease;
+    display:block;
   }
-  .tax-info{
-    display: none;
+  /* remove aggressive zoom on hover so image stays fully visible */
+  .listing-card:hover .media img { transform: none; }
+
+  .listing-card .card-body { padding: 1rem; }
+  .listing-card .card-title { font-size: 1.05rem; font-weight: 700; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .listing-card .card-text { font-size: 0.88rem; color: #6c757d; margin: 6px 0 8px; }
+
+  .fee { color: #0d6efd; font-weight: 800; font-size: 1.15rem; }
+  .meta-row { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+
+  .fav-badge {
+    position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.95); border-radius: 50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; box-shadow: 0 6px 18px rgba(13,110,253,0.06);
   }
 
-  .tax-switch {
-    border: 2px solid #0d6efd;
-    border-radius: 2rem;
-    background: linear-gradient(90deg, #e7f1ff 0%, #f8fafc 100%);
-    box-shadow: 0 2px 12px rgba(13,110,253,0.08), 0 1.5px 4px rgba(0,0,0,0.04);
-    height: 3.2rem;
-    padding: 0.8rem 2rem;
-    margin-left: 3rem;
-    display: flex;
-    align-items: center;
-    transition: box-shadow 0.2s, border-color 0.2s;
+  .rating-pill { background: linear-gradient(90deg,#ffd54a,#ffc107); color:#111; padding:4px 8px; border-radius:12px; font-weight:700; display:inline-flex; align-items:center; gap:6px; }
+
+  .card-footer-cta { display:flex; align-items:center; gap:8px; }
+  .card-footer-cta .btn { font-size:0.9rem; padding:6px 10px; }
+
+  /* tax info toggle */
+  .tax-info{ display: none; }
+
+  .tax-switch { border: 2px solid #0d6efd; border-radius: 2rem; background: linear-gradient(90deg, #e7f1ff 0%, #f8fafc 100%); padding: .6rem 1.2rem; margin-left: 1.2rem; display:flex; align-items:center; }
+  .tax-switch label { font-weight:600; color:#0d6efd; margin-left: .6rem; }
+  /* Hero banner */
+  .hero-banner {
+    border-radius: 14px;
+    background: linear-gradient(180deg, #ffffff 0%, #f7fffb 100%);
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.6rem;
+    box-shadow: 0 6px 20px rgba(16,24,40,0.04);
   }
-  .tax-switch:hover {
-    box-shadow: 0 4px 18px rgba(13,110,253,0.16), 0 2px 8px rgba(0,0,0,0.08);
-    border-color: #6610f2;
-  }
-  .tax-switch label {
-    font-weight: 600;
-    color: #0d6efd;
-    letter-spacing: 0.5px;
-    margin-left: 0.8rem;
-    font-size: 1.05rem;
+  .hero-inner { display:flex; gap:1.6rem; align-items:center; }
+  .hero-img { width:48%; max-width:560px; border-radius:12px; box-shadow: 0 8px 30px rgba(13,110,253,0.06); }
+  .hero-text { width:52%; }
+  .hero-text h1 { font-size:1.8rem; margin-bottom:0.6rem; }
+  .hero-text p { color:#556b6b; font-size:1rem; margin-bottom:1rem; }
+  .hero-cta .btn { padding:10px 18px; border-radius:8px; }
+  @media (max-width: 768px) {
+    .hero-inner { flex-direction:column; }
+    .hero-img, .hero-text { width:100%; }
   }
 </style>
-<div class="filters ">
-  <dev class="filter ">
-   <div><i class="fa-solid fa-fire"></i></div> 
-    <p>Trending</p>
-  </dev>
-  
-  <dev class="filter ">
-   <div><i class="fa-solid fa-bed"></i></div> 
-    <p>Rooms</p>
-  </dev>
-  <dev class="filter ">
-   <div><i class="fa-solid fa-city"></i></div> 
-    <p>Iconic cities</p>
-  </dev>
-  
-  <dev class="filter ">
-   <div><i class="fa-solid fa-mountain-sun"></i></div> 
-    <p>Mountains</p>
-  </dev>
-  <dev class="filter ">
-   <div><i class="fa-solid fa-chess-rook"></i></div> 
-    <p>Cstles</p>
-  </dev>
-  <dev class="filter ">
-   <div><i class="fa-solid fa-person-swimming"></i></div> 
-    <p>Amazing Pool</p>
-  </dev>
-  <dev class="filter ">
-   <div><i class="fa-solid fa-tents"></i></div> 
-    <p>Camping</p>
-  </dev>
-  <dev class="filter ">
-   <div><i class="fa-solid fa-tractor"></i></div> 
-    <p>Farms</p>
-  </dev>
-  <dev class="filter ">
-   <div><i class="fa-solid fa-snowflake"></i></div> 
-    <p>Arctic</p>
-  </dev>
-  </dev>
-  <dev class="filter ">
-   <div><i class="fa-solid fa-igloo"></i></div> 
-    <p>Domes</p>
-  </dev>
-  <dev class="filter ">
-   <div><i class="fa-solid fa-sailboat"></i></div> 
-    <p>Boats</p>
-  </dev>
-  <div class="tax-switch">
-    <div class="form-check-reverse form-switch">
-      <input class="form-check-input" 
-      type="checkbox"
-       role="switch" 
-       id="flexSwitchCheckDefault">
-       <label class="form-check-label" for="flexSwitchCheckDefault">Display Rent after Taxes</label>
+
+<style>
+  /* local banner tweaks */
+  .hero-top-space { padding-top: 4.5rem; } /* space from navbar */
+  .hero-text h1{
+    background: linear-gradient(90deg,#0d6efd 0%,#00c6ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: 2.1rem;
+    font-weight: 800;
+    margin-bottom: 0.35rem;
+    letter-spacing: -0.4px;
+    text-shadow: 0 10px 30px rgba(13,110,253,0.06);
+  }
+  .hero-sub { color:#0b5e68; font-weight:700; margin-bottom:0.6rem; }
+  .hero-text p { color:#476b66; font-size:1.02rem; line-height:1.5; margin-bottom:1rem; }
+  .hero-cta .btn { border-radius:10px; padding:10px 18px; box-shadow:0 8px 24px rgba(13,110,253,0.06); }
+  .hero-img { max-height:360px; object-fit:cover; border-radius:10px; }
+  @media (max-width:768px) { .hero-top-space { padding-top:3.5rem; } .hero-text h1{font-size:1.6rem;} }
+</style>
+
+<div class="hero-top-space">
+  <div class="container">
+    <div class="hero-banner">
+      <div class="hero-inner">
+        <img class="hero-img" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1400&q=80" alt="Learn online">
+        <div class="hero-text">
+          <h1>Learn. Compare. Enroll — Faster.</h1>
+          <div class="hero-sub">Top courses, real reviews, curated deals</div>
+          <p>
+            Coursely connects you with the best programs in
+            <strong>Full‑Stack Development, AI/ML, Data Structures & Algorithms</strong>, and more.
+            Compare verified reviews, discover exclusive discounts, and enroll confidently in one click.
+            <br><br>
+            🔥 <strong>Want the best deal?</strong> Message us to unlock limited-time offers.
+          </p>
+          <div class="hero-cta">
+            <a href="/listings" class="btn btn-primary me-2">Explore Courses</a>
+            <a href="https://wa.me/919907876770?text=Hi%20Coursely,%20I%20want%20to%20add%20a%20course." class="btn btn-outline-secondary" target="_blank">Add a Course</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
 </div>
+
 
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-4 mt-3">
   <% for(let listing of alllisting) { %>
     <div class="col">
       <div class="card h-100 border-0 shadow-sm listing-card">
         <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
-          <div class="position-relative">
-            <img src="<%= listing.image %>" class="card-img-top rounded-4" alt="listing image" style="height: 250px; object-fit: cover;">
-            <span class="position-absolute top-0 end-0 m-2 badge bg-light text-dark p-2 fs-6" style="opacity: 0.9;">
+          <div class="media">
+            <img src="<%= listing.thumbnail %>" alt="listing image">
+            <div class="fav-badge">
               <i class="bi bi-heart"></i>
-            </span>
-          </div>
-          <div class="card-body px-2 py-3">
-            <div class="d-flex justify-content-between align-items-center mb-1">
-              <h5 class="card-title mb-0 fw-semibold"><%= listing.title %></h5>
-              <span class="text-warning"><i class="bi bi-star-fill"></i> <%= listing.rating || "4.8" %></span>
             </div>
-            <p class="card-text text-muted mb-1"><%= listing.location || "India" %></p>
-            <div class="d-flex align-items-center mt-2">
-              <span class="fw-bold fs-5 text-primary me-2">
-              &#8377;<%= listing.price.toLocaleString("en-IN") %>
-              </span>
-              <span class="badge bg-success bg-opacity-25 text-success me-2 tax-info" style="font-size: 0.9rem;">
-              +18% GST
-              </span>
-              <span class="text-muted ms-1" style="font-size: 1.1rem; font-weight: 600; color: #0d6efd; letter-spacing: 0.5px; position: relative; top: 1px; background: #e7f1ff; padding: 2px 8px; border-radius: 8px; box-shadow: 0 1px 4px rgba(13,110,253,0.08); transition: background 0.2s;">
-                / night
-              </span>
+            <div style="position:absolute; left:10px; bottom:10px;">
+                <span class="rating-pill"><i class="bi bi-star-fill"></i> <%= listing.avgRating || listing.rating || "3.5" %></span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="meta-row">
+              <h5 class="card-title"><%= listing.title %></h5>
+            </div>
+            <p class="card-text"><%= listing.category || "General" %></p>
+            <div class="d-flex align-items-center justify-content-between">
+              <div>
+                <div class="fee">&#8377;<%= (listing.fee || 0).toLocaleString("en-IN") %></div>
+                <div class="text-muted" style="font-size:0.85rem">Starts soon</div>
+              </div>
+              <div class="card-footer-cta">
+                <button class="btn btn-outline-primary" onclick="event.preventDefault(); event.stopPropagation(); location.href='/listings/<%= listing._id %>'">Preview</button>
+                <button class="btn btn-primary" 
+                  <% if (!listing.url) { %> disabled title="No course URL provided" <% } else { %>
+                    onclick="event.preventDefault(); event.stopPropagation(); window.open('<%= listing.url %>', '_blank', 'noopener')"
+                  <% } %>
+                >Enroll</button>
+              </div>
             </div>
           </div>
         </a>

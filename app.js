@@ -96,6 +96,8 @@ app.use((req, res, next) => {
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
   res.locals.currentUser = req.user; // Make currentUser available in all templates
+  // Admin WhatsApp contact; set ADMIN_WHATSAPP in your .env (no leading +), e.g. ADMIN_WHATSAPP=919123456789
+  res.locals.ADMIN_WHATSAPP = process.env.ADMIN_WHATSAPP || '919907876770';
   next();
 });
  
