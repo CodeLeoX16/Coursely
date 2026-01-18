@@ -14,35 +14,22 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user.js');
 const userRoutes = require('./Routes/user.js');
-require('dotenv').config(); 
+require('dotenv').config();
 
-const dbUrl=process.env.ATLASDB_URL; 
+// Database URL: prefer environment variable, fall back to local MongoDB for development
+const dbUrl = process.env.ATLASDB_URL || 'mongodb://127.0.0.1:27017/coursecritic';
 // const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 
 // Global error logging for debugging
-process.on('uncaughtException', (err) => {
-  console.error('Uncaught Exception:', err);
-}); 
-process.on('unhandledRejection', (reason, promise) => {
-  console.error('Unhandled Rejection:', reason);
+// Connect to MongoDB
+main().catch(err => {
+  console.error('Failed to connect to MongoDB:', err);
+  process.exit(1);
 });
- 
-  
-main()
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
 
 async function main() {
-  try {
-    await mongoose.connect(dbUrl);
-  } catch (err) {
-    console.error("Failed to connect to MongoDB:", err);
-    process.exit(1);
-  }
+  await mongoose.connect(dbUrl);
+  console.log('Connected to MongoDB');
 }
 
 app.set('view engine', 'ejs');
@@ -53,28 +40,23 @@ app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, 'public')));
 
 const store = MongoStore.create({
-  mongoUrl:dbUrl,
-  crypto:{
-    secret: process.env.SECRET,
-  },
-  touchAfter: 24 * 3600, // time in seconds after which session will be updated
-
+  mongoUrl: dbUrl,
+  crypto: { secret: process.env.SECRET },
+  touchAfter: 24 * 3600,
 });
 store.on('error', function(e) {
   console.log('Session Store Error', e);
 });
 
-const sessionOptions={
-  store: store,
-  secret: process.env.SECRET, // Use environment variable for secret
-  resave:false,
-  saveUninitialized:true,
+const sessionOptions = {
+  store,
+  secret: process.env.SECRET || 'change-this-secret',
+  resave: false,
+  saveUninitialized: false,
   cookie: {
-    expires: Date.now() + 7 * 24 * 60 * 1000, // 7 day
-    maxAge: 7 * 24 * 60 * 1000, // 7 day
-    history: true, // Enable history tracking
-  }
-
+    httpOnly: true,
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in ms
+  },
 };
 
 // app.get('/', (req, res) => {
@@ -95,8 +77,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use((req, res, next) => {
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
-  res.locals.currentUser = req.user; // Make currentUser available in all templates
-  // Admin WhatsApp contact; set ADMIN_WHATSAPP in your .env (no leading +), e.g. ADMIN_WHATSAPP=919123456789
+  res.locals.currentUser = req.user;
   res.locals.ADMIN_WHATSAPP = process.env.ADMIN_WHATSAPP || '919907876770';
   next();
 });
@@ -113,10 +94,11 @@ app.use((req, res, next) => {
 // Error-handling middleware (must have 4 arguments)
 app.use((err, req, res, next) => {
   const { statusCode = 500, message = 'Something went wrong' } = err;
-  //res.status(statusCode).send(message);
-  res.status(statusCode).render("error.ejs",{message})
+  res.status(statusCode).render('error.ejs', { message });
 });
 
-app.listen(8080, () => {
-  console.log("Server is running on port 8080");
-}); 
+// Start server on environment port (for deploy) or 3000 for local dev
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
