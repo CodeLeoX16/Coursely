@@ -175,16 +175,20 @@ db.users.updateOne(
 <div align="center">
 
 ### 🏠 Home Page
-*Coming soon - Beautiful landing page showcasing featured courses*
+<img width="1900" height="1079" alt="Screenshot 2026-01-18 181851" src="https://github.com/user-attachments/assets/28fa5577-1791-4d42-a59a-38813f6f5a58" />
+
 
 ### 📚 Course Listings
-*Coming soon - Clean grid layout with course cards*
+<img width="1893" height="1079" alt="Screenshot 2026-01-18 182440" src="https://github.com/user-attachments/assets/824ee5b2-c084-4008-be68-355502d78d95" />
+
 
 ### 📖 Course Details
-*Coming soon - Detailed course information with reviews*
+<img width="1870" height="921" alt="Screenshot 2026-01-18 182246" src="https://github.com/user-attachments/assets/35b6930f-3756-4cb1-a184-cf0077830ae7" />
+
 
 ### ⭐ Review System
-*Coming soon - Interactive rating and review interface*
+<img width="1900" height="1079" alt="Screenshot 2026-01-18 182332" src="https://github.com/user-attachments/assets/91a8d26d-e36c-40c0-bb48-8203374f668a" />
+
 
 </div>
 
