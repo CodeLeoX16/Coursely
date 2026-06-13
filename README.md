@@ -201,7 +201,7 @@ db.users.updateOne(
 
 </div>
 
-> 💡 **Tip**: Add screenshots to make your README even more attractive! Place images in an `assets` or `screenshots` folder.
+> 
 
 ---
 
